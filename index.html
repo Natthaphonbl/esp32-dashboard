@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>ESP32 MQTT Real-time</title>
+    <!-- นำเข้าไลบรารี MQTT สำหรับ Browser -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <style>
+        body { font-family: Arial; text-align: center; margin-top: 50px; }
+        .card { border: 1px solid #ccc; padding: 20px; border-radius: 10px; display: inline-block; margin: 10px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin: 5px; }
+        .btn-on { background-color: #4CAF50; color: white; border: none; }
+        .btn-off { background-color: #f44336; color: white; border: none; }
+        #status { color: gray; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>ควบคุม ESP32 แบบ Real-time</h1>
+    <p>สถานะการเชื่อมต่อ: <span id="status">กำลังเชื่อมต่อ...</span></p>
+    
+    <div class="card">
+        <h3>🌡️ อุณหภูมิ: <span id="temp">0</span> °C</h3>
+        <h3>💧 ความชื้น: <span id="hum">0</span> %</h3>
+    </div>
+
+    <div class="card">
+        <h3>💡 ควบคุมไฟ LED ทันที</h3>
+        <button class="btn-on" onclick="sendLedCommand('1')">เปิด LED</button>
+        <button class="btn-off" onclick="sendLedCommand('0')">ปิด LED</button>
+    </div>
+
+    <script>
+        // 1. ตั้งค่า HiveMQ Cloud ของคุณ (*** ต้องต่อท้ายด้วย /mqtt ***)
+        const brokerUrl = 'wss://YOUR_CLUSTER_URL.s1.eu.hivemq.cloud:8884/mqtt'; 
+        const options = {
+            username: 'YOUR_USERNAME',
+            password: 'YOUR_PASSWORD'
+        };
+
+        // 2. เชื่อมต่อ MQTT Broker
+        const client = mqtt.connect(brokerUrl, options);
+
+        client.on('connect', () => {
+            document.getElementById('status').innerText = 'เชื่อมต่อแล้ว 🟢';
+            document.getElementById('status').style.color = 'green';
+            
+            // สมัครรับข้อมูลจากหัวข้อ esp32/sensor
+            client.subscribe('esp32/sensor');
+        });
+
+        // 3. เมื่อมีข้อมูลส่งมาจาก ESP32 จะอัปเดตหน้าจอทันที
+        client.on('message', (topic, message) => {
+            if (topic === 'esp32/sensor') {
+                const data = JSON.parse(message.toString());
+                document.getElementById('temp').innerText = data.temperature;
+                document.getElementById('hum').innerText = data.humidity;
+            }
+        });
+
+        // 4. ฟังก์ชันส่งคำสั่งเปิด/ปิด LED ไปยังหัวข้อ esp32/led
+        function sendLedCommand(state) {
+            client.publish('esp32/led', state);
+        }
+    </script>
+
+</body>
+</html>
