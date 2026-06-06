@@ -5,29 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Farm Dashboard</title>
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="header">
-        <h1>🌱 ระบบฟาร์มรดน้ำต้นไม้อัจฉริยะ</h1>
-        <div id="status" class="status-badge">กำลังเชื่อมต่อ...</div>
+    <!-- Background decoration -->
+    <div class="bg-decoration">
+        <div class="bg-circle c1"></div>
+        <div class="bg-circle c2"></div>
+        <div class="bg-circle c3"></div>
+        <div class="bg-grid"></div>
     </div>
 
-    <div class="sensor-container">
-        <div class="sensor-card">
-            <h3>🌡️ อุณหภูมิ (Temperature)</h3>
-            <div class="sensor-value"><span id="temp">0.0</span> °C</div>
+    <div class="wrapper">
+        <div class="header">
+            <div class="header-icon">🌱</div>
+            <div class="header-text">
+                <h1>Smart Farm Mr.Wat</h1>
+                <p>ระบบรดน้ำต้นไม้อัจฉริยะ</p>
+            </div>
+            <div id="status" class="status-badge">
+                <span class="status-dot"></span>
+                กำลังเชื่อมต่อ...
+            </div>
         </div>
-        <div class="sensor-card humidity">
-            <h3>💧 ความชื้น (Humidity)</h3>
-            <div class="sensor-value"><span id="hum">0.0</span> %</div>
-        </div>
-    </div>
 
-    <div class="zones-grid" id="zones-container">
+        <div class="sensor-container">
+            <div class="sensor-card temp-card">
+                <div class="sensor-icon">🌡️</div>
+                <div class="sensor-info">
+                    <span class="sensor-label">อุณหภูมิ</span>
+                    <div class="sensor-value"><span id="temp">--</span><span class="unit">°C</span></div>
+                </div>
+                <div class="sensor-bar"><div class="sensor-fill temp-fill" id="temp-fill"></div></div>
+            </div>
+            <div class="sensor-card hum-card">
+                <div class="sensor-icon">💧</div>
+                <div class="sensor-info">
+                    <span class="sensor-label">ความชื้น</span>
+                    <div class="sensor-value"><span id="hum">--</span><span class="unit">%</span></div>
+                </div>
+                <div class="sensor-bar"><div class="sensor-fill hum-fill" id="hum-fill"></div></div>
+            </div>
+            <div class="sensor-card time-card">
+                <div class="sensor-icon">🕐</div>
+                <div class="sensor-info">
+                    <span class="sensor-label">เวลาปัจจุบัน</span>
+                    <div class="sensor-value clock" id="clock">--:--</div>
+                </div>
+            </div>
         </div>
+
+        <div class="section-title">
+            <h2>🗺️ โซนรดน้ำทั้งหมด</h2>
+            <span class="zone-count">8 โซน</span>
+        </div>
+
+        <div class="zones-grid" id="zones-container"></div>
+    </div>
 
     <script src="script.js"></script>
 </body>
