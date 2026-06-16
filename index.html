@@ -10,7 +10,6 @@
 </head>
 <body>
 
-    <!-- Background decoration -->
     <div class="bg-decoration">
         <div class="bg-circle c1"></div>
         <div class="bg-circle c2"></div>
@@ -19,10 +18,11 @@
     </div>
 
     <div class="wrapper">
+        <!-- Header -->
         <div class="header">
             <div class="header-icon">🌱</div>
             <div class="header-text">
-                <h1>Smart Farm Mr.Wat</h1>
+                <h1>Smart Farm</h1>
                 <p>ระบบรดน้ำต้นไม้อัจฉริยะ</p>
             </div>
             <div id="status" class="status-badge">
@@ -31,6 +31,37 @@
             </div>
         </div>
 
+        <!-- ESP32 Device Status Bar -->
+        <div class="device-status-bar" id="device-status-bar">
+            <div class="device-status-item">
+                <span class="ds-icon">📡</span>
+                <span class="ds-label">ESP32</span>
+                <span class="ds-value" id="esp-status">ไม่พบอุปกรณ์</span>
+                <span class="ds-dot" id="esp-dot"></span>
+            </div>
+            <div class="device-status-item">
+                <span class="ds-icon">📶</span>
+                <span class="ds-label">Wi-Fi</span>
+                <span class="ds-value" id="wifi-rssi">--</span>
+            </div>
+            <div class="device-status-item">
+                <span class="ds-icon">🌐</span>
+                <span class="ds-label">IP</span>
+                <span class="ds-value" id="wifi-ip">--</span>
+            </div>
+            <div class="device-status-item">
+                <span class="ds-icon">⏱</span>
+                <span class="ds-label">Uptime</span>
+                <span class="ds-value" id="uptime">--</span>
+            </div>
+            <div class="device-status-item">
+                <span class="ds-icon">🔄</span>
+                <span class="ds-label">อัปเดตล่าสุด</span>
+                <span class="ds-value" id="last-seen">--</span>
+            </div>
+        </div>
+
+        <!-- Sensor Cards -->
         <div class="sensor-container">
             <div class="sensor-card temp-card">
                 <div class="sensor-icon">🌡️</div>
